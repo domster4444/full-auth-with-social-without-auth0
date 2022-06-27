@@ -10,7 +10,7 @@ const { registerValidator } = require('../middlewares/validators/joiValidator');
 const User = require('../models/userModel');
 
 //? jwt
-const { createGeneralJWT } = require('../utils/jwt');
+const { createGeneralJWT, verifyToken } = require('../utils/jwt');
 const { template1 } = require('../utils/email-templates/template');
 
 //sendgrid
@@ -112,22 +112,79 @@ exports.verifiedRegisterUser = catchAsyncErrors(
 
     const emailContent = {
       subjectTitle: 'Please verify your email to activate your account',
-      bodyContent: template1,
+      bodyContent: template1(activationLink),
     };
 
-    // const emailSentStatus = await sendEmail(
-    //   email,
-    //   process.env.EMAILFROM,
-    //   emailContent
-    // );
-    // console.log(emailSentStatus);
-    // if (emailSentStatus) {
-    //   return res.status(200).json({
-    //     success: true,
-    //     message: 'Verification email sent successfully',
-    //   });
-    // } else {
-    //   return next(new ErrorHandler('Error occured while sending email', 500));
-    // }
+    const emailSentStatus = await sendEmail(
+      email,
+      process.env.EMAILFROM,
+      emailContent
+    );
+    console.log(emailSentStatus);
+    if (emailSentStatus) {
+      return res.status(200).json({
+        success: true,
+        message: 'Verification email sent successfully',
+      });
+    } else {
+      return next(new ErrorHandler('Error occured while sending email', 500));
+    }
+  }
+);
+
+exports.createAccountForEmailVerifiedUser = catchAsyncErrors(
+  async (req: Request, res: Response, next: any) => {
+    let token;
+    const { authorization } = req.headers;
+    if (authorization && authorization.startsWith('Bearer')) {
+      token = authorization.split(' ')[1]; //? token is in form of Bearer token
+      const tokenData = await verifyToken(
+        token,
+        process.env.JWT_ACCOUNT_ACTIVATION
+      );
+      console.log(tokenData);
+
+      if (!tokenData) {
+        return next(new ErrorHandler('No token provided', 401));
+      }
+
+      const { name, email, password } = tokenData.data;
+      console.log(name);
+      console.log(email);
+      console.log(password);
+
+      await User.findOne({ email }).exec((err: any, user: any) => {
+        if (err) {
+          //!END OF THIS FUNC
+          return next(new ErrorHandler('Server Error, Try Again Later', 500));
+        }
+        if (user) {
+          //!END OF THIS FUNC
+          return next(new ErrorHandler('User already exists', 400));
+        }
+      });
+
+      const newUser = new User({ name, email, password });
+      await newUser.save((err: any, success: any) => {
+        if (err) {
+          return next(
+            new ErrorHandler('Error occured while saving user to db', 500)
+          );
+        }
+        return res.status(201).json({
+          success: true,
+          message: 'User created successfully',
+          data: success,
+        });
+      });
+    } else {
+      return next(new ErrorHandler('No token provided', 401));
+    }
+  }
+);
+
+exports.loginUser = catchAsyncErrors(
+  async (req: Request, res: Response, next: any) => {
+    const { email, password } = req.body;
   }
 );

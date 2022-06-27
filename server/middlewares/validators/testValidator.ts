@@ -45,4 +45,11 @@ exports.registerValidator = function (req: Request, res: Response, next: any) {
   }
 };
 
+exports.loginValidator = function (req: Request, res: Response, next: any) {
+  let { email, password } = req.body;
+
+  email = !isEmpty(email) ? email : '';
+  password = !isEmpty(password) ? password : '';
+};
+
 // //! NOTE: Validator is not very specific, if you provide any other field, it will just ignore those extra fields provided

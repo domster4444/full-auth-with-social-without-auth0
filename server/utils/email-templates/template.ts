@@ -1,4 +1,4 @@
-export const template1 = `
+export const template1 = (url: string) => `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -214,8 +214,9 @@ export const template1 = `
               <tbody>
                 <tr>
                 <td align="center" bgcolor="#932A89" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;">
-                  <a href="" style="background-color:#932A89; border:0px solid #333333; border-color:#333333; border-radius:0px; border-width:0px; color:#ffffff; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:15px 25px 15px 25px; text-align:center; text-decoration:none; border-style:solid; font-family:trebuchet ms,helvetica,sans-serif;" target="_blank">Check Status</a>
-                </td>
+                  <a href=${url} style="background-color:#932A89; border:0px solid #333333; border-color:#333333; border-radius:0px; border-width:0px; color:#ffffff; display:inline-block; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:15px 25px 15px 25px; text-align:center; text-decoration:none; border-style:solid; font-family:trebuchet ms,helvetica,sans-serif;" target="_blank">Check Status</a>
+                <a>${url}</a>
+                  </td>
                 </tr>
               </tbody>
             </table>
