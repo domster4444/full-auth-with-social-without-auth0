@@ -1,10 +1,17 @@
 import React from 'react';
-import TestForm from 'components/TestForm';
+
+//components
+import Layout from 'components/Layout';
+
 const App: React.FC = (): React.ReactElement => {
   return (
-    <>
-      <TestForm />
-    </>
+    <div>
+      <Layout>
+        <header>
+          <h1>Hello</h1>
+        </header>
+      </Layout>
+    </div>
   );
 };
 

@@ -186,5 +186,37 @@ exports.createAccountForEmailVerifiedUser = catchAsyncErrors(
 exports.loginUser = catchAsyncErrors(
   async (req: Request, res: Response, next: any) => {
     const { email, password } = req.body;
+
+    await User.findOne({ email }).exec(async (err: any, user: any) => {
+      if (err) {
+        return next(new ErrorHandler('server error', 400));
+      }
+      if (!user) {
+        return next(new ErrorHandler('user not found', 400));
+      }
+      //? if model method returns false then execute below block
+      if (!user.compareWithEncryptedPassword(password)) {
+        return next(new ErrorHandler('password or email is incorrect', 400));
+      }
+
+      const { _id, name, email } = user;
+
+      const generatedToken = await createGeneralJWT(
+        { _id, name, email },
+        process.env.JWT_ACCOUNT_ACTIVATION,
+        '1d'
+      );
+
+      res.status(200).json({
+        success: true,
+        message: 'User logged in successfully',
+        data: {
+          _id,
+          name,
+          email,
+        },
+        token: generatedToken,
+      });
+    });
   }
 );

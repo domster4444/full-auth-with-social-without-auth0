@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import 'styles/scss/main.min.css';
 import reportWebVitals from './reportWebVitals';
 
 //? styled-components
@@ -22,14 +23,10 @@ const GlobalStyle = createGlobalStyle`
 
   :root{
     font-size:10px;
-    --primary-green: #2ecc71;
-    --primary-dark-green: #25a25a;
-    --primary-white: #ffffff;
-    --primary-navy:  #102b7b;
-    --primary-navy-light:  #1f44b4; /*used for herosection bg-color*/ 
-    --primary-black: black;
-    --primary-grey: #767683;
-    --secondary-lightsky: cyan;
+    --primary-navy: #10072c;
+    --primary-white:#ffffff;
+    --primary-violet:#A66EFE;
+
   //? Devices
   --phone:360px;
   --tablet:768px;
@@ -44,6 +41,10 @@ const GlobalStyle = createGlobalStyle`
 }
 
 
+
+body{
+  background:var(--primary-navy);
+}
 
 `;
 

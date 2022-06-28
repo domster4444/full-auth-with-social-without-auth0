@@ -2314,3 +2314,11 @@ a {
 a:hover, a:focus {
   color: #5ec7c8;
 }
+
+.poppins_base, .poppins_regular {
+  font-family: 'Poppins', sans-serif;
+}
+
+.poppins_regular {
+  font-weight: 400;
+}

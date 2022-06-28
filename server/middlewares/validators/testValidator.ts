@@ -50,6 +50,14 @@ exports.loginValidator = function (req: Request, res: Response, next: any) {
 
   email = !isEmpty(email) ? email : '';
   password = !isEmpty(password) ? password : '';
+
+  if (Validator.isEmpty(email)) {
+    next(new ErrorHandler('Email field is required', 400));
+  } else if (Validator.isEmpty(password)) {
+    next(new ErrorHandler('Password field is required', 400));
+  } else {
+    next();
+  }
 };
 
 // //! NOTE: Validator is not very specific, if you provide any other field, it will just ignore those extra fields provided

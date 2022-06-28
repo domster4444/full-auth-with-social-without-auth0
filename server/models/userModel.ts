@@ -112,8 +112,8 @@ userSchema.methods = {
     }
   },
 
-  compareWithEncryptedPassword: function (password: string) {
-    return this.encryptPassword(password) === this.hashed_password;
+  compareWithEncryptedPassword: function (planeTextPassword: string) {
+    return this.encryptPassword(planeTextPassword) === this.hashed_password; //? Will return true or false
   },
 };
 
