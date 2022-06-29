@@ -5,13 +5,19 @@ interface ButtonInterface {
   tertiary?: boolean;
 }
 
-const Button = styled.button<ButtonInterface>`
+export const PrimaryBtn = styled.button<ButtonInterface>`
+  color: white;
+  padding: 0.55rem 0.45rem;
+  width: 100%;
+  background: var(--primary-violet);
   ${(props: ButtonInterface) =>
     props.primary
-      ? css``
+      ? css`
+          font-size: 2.2rem;
+        `
       : props.secondary
       ? css``
       : props.tertiary
       ? css``
-      : css``}
+      : css``};
 `;

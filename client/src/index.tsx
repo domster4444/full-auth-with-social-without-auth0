@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import AppRoutes from 'routes/AppRoutes';
 import 'styles/scss/main.min.css';
 import reportWebVitals from './reportWebVitals';
 
@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
   :root{
     font-size:10px;
     --primary-navy: #10072c;
+    --secondary-navy: #1b0d4678;
     --primary-white:#ffffff;
     --primary-violet:#A66EFE;
 
@@ -43,6 +44,7 @@ const GlobalStyle = createGlobalStyle`
 
 
 body{
+  color:var(--primary-white);
   background:var(--primary-navy);
 }
 
@@ -55,7 +57,7 @@ root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <GlobalStyle />
-      <App />
+      <AppRoutes />
     </PersistGate>
   </Provider>
 );

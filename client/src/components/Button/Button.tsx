@@ -1,7 +1,15 @@
 import React from 'react';
 
-const Button = () => {
-  return <div>Button</div>;
-};
+import { PrimaryBtn } from './Button.style';
 
-export default Button;
+interface ButtonI {
+  children: string;
+}
+
+export const PrimaryButton = ({ children }: ButtonI) => {
+  return (
+    <PrimaryBtn type="submit" primary className="poppins_regular">
+      {children}
+    </PrimaryBtn>
+  );
+};

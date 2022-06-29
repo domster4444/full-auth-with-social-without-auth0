@@ -22,21 +22,22 @@ const NavList = styled.ul`
 `;
 
 const NavListItem = styled.ul<INavListItem>`
-  border-radius: 0.25rem;
-  font-size: 2rem;
-  margin: 0.25rem 1rem;
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  color: var(--primary-violet);
-
-  &:hover {
-    ${(props: INavListItem) =>
-      props.disableHover
-        ? ''
-        : css`
-            background: var(--primary-violet);
-            color: var(--primary-white);
-          `}
+  a {
+    border-radius: 0.25rem;
+    font-size: 2rem;
+    margin: 0.25rem 1rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    color: var(--primary-violet);
+    &:hover {
+      ${(props: INavListItem) =>
+        props.disableHover
+          ? ''
+          : css`
+              background: var(--primary-violet);
+              color: var(--primary-white);
+            `}
+    }
   }
 `;
 
