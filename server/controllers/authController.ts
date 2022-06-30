@@ -108,7 +108,7 @@ exports.verifiedRegisterUser = catchAsyncErrors(
       '1d'
     );
 
-    const activationLink = `${process.env.PROD_CLIENT_URL}/verify-email-for-creating-account/${generatedToken}`;
+    const activationLink = `${process.env.PROD_CLIENT_URL}/activate-account/${generatedToken}`;
 
     const emailContent = {
       subjectTitle: 'Please verify your email to activate your account',
@@ -136,6 +136,7 @@ exports.createAccountForEmailVerifiedUser = catchAsyncErrors(
   async (req: Request, res: Response, next: any) => {
     let token;
     const { authorization } = req.headers;
+    console.log(req.header);
     if (authorization && authorization.startsWith('Bearer')) {
       token = authorization.split(' ')[1]; //? token is in form of Bearer token
       const tokenData = await verifyToken(

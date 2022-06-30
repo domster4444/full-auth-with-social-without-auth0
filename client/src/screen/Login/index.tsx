@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { LoginContainer, FormBox } from './Login.style';
 import Text from 'components/Text';
@@ -9,10 +9,37 @@ import { PrimaryButton } from 'components/Button/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 import Alert from 'components/Alert';
 
+import { useLoginUserMutation } from '../../redux/api/auth/authenticationApi';
+
+import { storeTokenByValue } from 'services/LocalStorageService';
+
 const Index = (): React.ReactElement => {
+  //! RTK Generated Register Hook , "registerUser" is name of endpoint in userAuthApi.js
+  const [loginUser, { isLoading }] = useLoginUserMutation();
+  interface apiResponseI {
+    error?: {
+      data: {
+        success: boolean;
+        message: string;
+      };
+      status: number;
+    };
+    data: {
+      data: {
+        _id: string;
+        name: string;
+        email: string;
+      };
+      message: string;
+      success: boolean;
+      token: string;
+    };
+  }
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -20,13 +47,33 @@ const Index = (): React.ReactElement => {
     },
     validationSchema: Yup.object({
       email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.number().min(6).required('Required'),
+      password: Yup.string().min(6).required('Required'),
     }),
-    onSubmit: (values) => {
-      toast('Logged In Successfully');
-      console.log(values);
+    onSubmit: async (values) => {
+      const dataToSend = {
+        email: values.email,
+        password: values.password,
+      };
+
+      //! User Register Using RTK Query Method
+      const res: apiResponseI = await loginUser(dataToSend);
+      console.log('response from axios');
+      console.log(res);
+
+      if (res.error) {
+        toast.error(res.error.data.message);
+      }
+
+      if (res.data) {
+        toast.success(res.data.message);
+        storeTokenByValue(res.data.token);
+      }
     },
   });
+
+  if (isLoading) {
+    return <div>Loading, Fetching data from server</div>;
+  }
 
   return (
     <main>
@@ -59,6 +106,8 @@ const Index = (): React.ReactElement => {
           </label>
 
           <PrimaryButton> Submit</PrimaryButton>
+
+          <Link to="/send-forgot-pass-email">Forgot Password ?</Link>
         </FormBox>
       </LoginContainer>
     </main>

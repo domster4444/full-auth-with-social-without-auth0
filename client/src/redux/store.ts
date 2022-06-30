@@ -12,6 +12,7 @@ import userInfoReducer from './features/userSlice';
 import authReducer from './features/authSlice';
 //rtk api
 import { userAuthApi } from './api/auth/userAuthApi';
+import { authenticationApi } from './api/auth/authenticationApi';
 
 const reducers = combineReducers({
   //? Toolkit Reducers
@@ -22,6 +23,8 @@ const reducers = combineReducers({
   //?RTK Api
   //todo: [postApi.reducerPath]:postApi.reducer
   [userAuthApi.reducerPath]: userAuthApi.reducer,
+  [authenticationApi.reducerPath]: authenticationApi.reducer,
+
   //? show dev tools only in development
   // devTools: process.env.NODE_ENV !== 'production',
 });

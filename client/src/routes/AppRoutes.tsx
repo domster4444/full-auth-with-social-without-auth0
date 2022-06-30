@@ -13,6 +13,9 @@ import {
 import Home from 'screen/Home';
 import Login from 'screen/Login';
 import Register from 'screen/Register';
+import ActivateAccount from 'screen/ActivateAccount';
+import ForgotPassword from 'screen/ForgotPassword';
+import ResetPassword from 'screen/ResetPassword';
 
 const AppRoutes: React.FC = (): React.ReactElement => {
   return (
@@ -22,6 +25,15 @@ const AppRoutes: React.FC = (): React.ReactElement => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route
+            path="/activate-account/:token"
+            element={<ActivateAccount />}
+          />
+          <Route path="/send-forgot-pass-email" element={<ForgotPassword />} />
+          <Route
+            path="/reset-password/:id/:token"
+            element={<ResetPassword />}
+          />
           {/* //? Catch all routes that are not defined above */}
           {/* //?  write this route at last after defining all routes */}
           <Route

@@ -1,6 +1,5 @@
-export const ServerUrl = 'http://localhost:3000';
-export const ServerUrl2 = 'http://localhost:3001';
-export const ServerUrl3 = 'http://localhost:3002';
+export const ServerUrl = 'http://localhost:5000';
+export const ClientUrl = 'http://localhost:3000';
 
 //? use directions
 // import * as myConsts from './constant';
