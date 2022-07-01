@@ -9,7 +9,7 @@ import { PrimaryButton } from 'components/Button/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import Alert from 'components/Alert';
 
