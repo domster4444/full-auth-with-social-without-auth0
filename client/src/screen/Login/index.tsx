@@ -9,13 +9,15 @@ import { PrimaryButton } from 'components/Button/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import Alert from 'components/Alert';
 
 import { useLoginUserMutation } from '../../redux/api/auth/authenticationApi';
 
-import { storeTokenByValue } from 'services/LocalStorageService';
+import { DataStorageMiddleware } from 'services/AuthStorageMiddleware';
+import isAuth from 'services/isAuth';
 
 const Index = (): React.ReactElement => {
   //! RTK Generated Register Hook , "registerUser" is name of endpoint in userAuthApi.js
@@ -66,7 +68,7 @@ const Index = (): React.ReactElement => {
 
       if (res.data) {
         toast.success(res.data.message);
-        storeTokenByValue(res.data.token);
+        DataStorageMiddleware(res);
       }
     },
   });
@@ -79,6 +81,8 @@ const Index = (): React.ReactElement => {
     <main>
       <LoginContainer>
         <FormBox onSubmit={formik.handleSubmit}>
+          {/*//! redirect if user tries to go to /login path forcefully after loggedin */}
+          {isAuth() ? <Navigate to="/" /> : null}
           <Text>Login</Text>
           <label htmlFor="email">
             <Input
@@ -88,6 +92,7 @@ const Index = (): React.ReactElement => {
               name="email"
               type="email"
             />
+
             {formik.errors.email && formik.touched.email ? (
               <Alert type="error">{formik.errors.email}</Alert>
             ) : null}
@@ -104,9 +109,7 @@ const Index = (): React.ReactElement => {
               <Alert type="error">{formik.errors.password}</Alert>
             ) : null}
           </label>
-
           <PrimaryButton> Submit</PrimaryButton>
-
           <Link to="/send-forgot-pass-email">Forgot Password ?</Link>
         </FormBox>
       </LoginContainer>

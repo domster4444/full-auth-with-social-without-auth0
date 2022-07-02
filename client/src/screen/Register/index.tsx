@@ -13,9 +13,32 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { useVerifiedRegisterUserMutation } from '../../redux/api/auth/authenticationApi';
-import { storeTokenByValue } from 'services/LocalStorageService';
+
+import { DataStorageMiddleware } from 'services/AuthStorageMiddleware';
+import isAuth from 'services/isAuth';
+import { Navigate } from 'react-router-dom';
 
 const Index: React.FC = (): React.ReactElement => {
+  interface apiResponseI {
+    error?: {
+      data: {
+        success: boolean;
+        message: string;
+      };
+      status: number;
+    };
+    data: {
+      data: {
+        _id: string;
+        name: string;
+        email: string;
+      };
+      message: string;
+      success: boolean;
+      token: string;
+    };
+  }
+
   //! RTK Generated Register Hook , "registerUser" is name of endpoint in userAuthApi.js
   const [verifiedRegisterUser, { isLoading }] =
     useVerifiedRegisterUserMutation();
@@ -39,7 +62,7 @@ const Index: React.FC = (): React.ReactElement => {
       };
 
       //! User Register Using RTK Query Method
-      const res = await verifiedRegisterUser(dataToSend);
+      const res: apiResponseI = await verifiedRegisterUser(dataToSend);
 
       if (res.error) {
         toast.error(res.error.data.message);
@@ -47,6 +70,7 @@ const Index: React.FC = (): React.ReactElement => {
 
       if (res.data) {
         toast.success(res.data.message);
+        DataStorageMiddleware(res);
       }
     },
   });
@@ -54,6 +78,8 @@ const Index: React.FC = (): React.ReactElement => {
   return (
     <main>
       <RegisterContainer>
+        {/*//! redirect if user tries to go to /login path forcefully after loggedin */}
+        {isAuth() ? <Navigate to="/" /> : null}
         <FormBox onSubmit={formik.handleSubmit}>
           <Text>Register</Text>
           <label htmlFor="name">
