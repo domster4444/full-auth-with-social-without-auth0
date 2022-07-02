@@ -17,6 +17,13 @@ import ActivateAccount from 'screen/ActivateAccount';
 import ForgotPassword from 'screen/ForgotPassword';
 import ResetPassword from 'screen/ResetPassword';
 
+import LoggedInPrivateRoute from 'routes/LoggedInPrivateRoute';
+import AnyLoggedInUserPage from 'screen/AnyLoggedInUserPage';
+import CustomerPrivateRoute from 'routes/CustomerPrivateRoute';
+import CustomerDashboard from 'screen/CustomerDashboard';
+import AdminPrivateRoute from 'routes/AdminPrivateRoute';
+import AdminDashboard from 'screen/AdminDashboard';
+
 const AppRoutes: React.FC = (): React.ReactElement => {
   return (
     <BrowserRouter>
@@ -39,6 +46,34 @@ const AppRoutes: React.FC = (): React.ReactElement => {
           <Route
             path="*"
             element={<h1 style={{ color: 'white ' }}>PAGE NOT FOUND</h1>}
+          />
+
+          {/* //*PRIVATE ROUTE */}
+
+          <Route
+            path="/any-logged-in-user"
+            element={
+              <LoggedInPrivateRoute>
+                <AnyLoggedInUserPage />
+              </LoggedInPrivateRoute>
+            }
+          />
+          <Route
+            path="/customer-private-page"
+            element={
+              <CustomerPrivateRoute>
+                <CustomerDashboard />
+              </CustomerPrivateRoute>
+            }
+          />
+
+          <Route
+            path="/admin-private-page"
+            element={
+              <AdminPrivateRoute>
+                <AdminDashboard />
+              </AdminPrivateRoute>
+            }
           />
         </Routes>
       </Layout>

@@ -36,8 +36,8 @@ const userSchema: Schema = new Schema<UserSchemaInterface>(
 
     role: {
       type: String,
-      enum: ['subscriber', 'admin'],
-      default: 'subscriber', //? if you type default then required is not necessary
+      enum: ['customer', 'admin'],
+      default: 'customer', //? if you type default then required is not necessary
     },
 
     hashed_password: {

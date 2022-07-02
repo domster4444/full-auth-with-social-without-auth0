@@ -200,7 +200,7 @@ exports.loginUser = catchAsyncErrors(
         return next(new ErrorHandler('password or email is incorrect', 400));
       }
 
-      const { _id, name, email } = user;
+      const { _id, name, email, role } = user;
 
       const generatedToken = await createGeneralJWT(
         { _id, name, email },
@@ -215,6 +215,7 @@ exports.loginUser = catchAsyncErrors(
           _id,
           name,
           email,
+          role,
         },
         token: generatedToken,
       });

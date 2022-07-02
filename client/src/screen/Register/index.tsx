@@ -16,7 +16,7 @@ import { useVerifiedRegisterUserMutation } from '../../redux/api/auth/authentica
 
 import { DataStorageMiddleware } from 'services/AuthStorageMiddleware';
 import isAuth from 'services/isAuth';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Index: React.FC = (): React.ReactElement => {
   interface apiResponseI {
@@ -70,7 +70,6 @@ const Index: React.FC = (): React.ReactElement => {
 
       if (res.data) {
         toast.success(res.data.message);
-        DataStorageMiddleware(res);
       }
     },
   });
