@@ -55,6 +55,7 @@ const Nav = () => {
           {!isAuth() && (
             <>
               <NavListItem>
+                {/* protected nav link */}
                 <Link to={isAuth() ? '/' : '/login'} style={isActive('/login')}>
                   Login
                 </Link>
