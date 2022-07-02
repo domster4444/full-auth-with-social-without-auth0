@@ -12,6 +12,7 @@ import isAuth from 'services/isAuth';
 import { DataRemovalMiddleware } from 'services/AuthStorageMiddleware';
 
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -73,15 +74,19 @@ const Nav = () => {
             <>
               <NavListItem>
                 <a
-                  style={isActive('/login')}
                   onClick={() => {
                     DataRemovalMiddleware(() => {
-                      navigate('/');
+                      toast.success('loggedout successfully');
+                      navigate('/'); //! not doing this will not update menus 'name" in navbar, even if you log out, still it will show you "logout" menu and "userName" menu, this will force rerender navbar again hence updating menus
                     });
                   }}
                 >
                   Logout
                 </a>
+              </NavListItem>
+
+              <NavListItem>
+                <a>{isAuth().name}</a>
               </NavListItem>
             </>
           )}

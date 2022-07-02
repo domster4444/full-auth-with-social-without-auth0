@@ -35,8 +35,8 @@ const NavListItem = styled.ul<INavListItem>`
           ? ''
           : css`
               background: var(--primary-violet);
-              color: var(--primary-white);
-            `}
+              color: white !important;
+            `};
     }
   }
 `;
