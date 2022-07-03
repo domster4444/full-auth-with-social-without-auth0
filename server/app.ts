@@ -38,9 +38,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 //todo: routes imports
-const testRoutes = require('./routes/testRoutes');
 const authRoutes = require('./routes/authRoutes');
-app.use('/api/v1', testRoutes);
 app.use('/api/v1', authRoutes);
 
 app.get('/', (req: Request, res: Response) => {

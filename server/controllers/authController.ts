@@ -203,8 +203,8 @@ exports.loginUser = catchAsyncErrors(
       const { _id, name, email, role } = user;
 
       const generatedToken = await createGeneralJWT(
-        { _id, name, email },
-        process.env.JWT_ACCOUNT_ACTIVATION,
+        { _id, name, email, role },
+        process.env.JWT_SECRET_KEY,
         '1d'
       );
 
@@ -220,5 +220,31 @@ exports.loginUser = catchAsyncErrors(
         token: generatedToken,
       });
     });
+  }
+);
+
+exports.getUserProfileData = catchAsyncErrors(
+  async (req: Request, res: Response, next: any) => {
+    const { id } = req.params;
+
+    console.log(
+      'userId ============================================================='
+    );
+    console.log(id);
+    await User.findById(id)
+      .select('-salt -hashed_password')
+      .exec((error: any, user: any) => {
+        if (error) {
+          return next(new ErrorHandler('server error', 500));
+        }
+        if (!user) {
+          return next(new ErrorHandler('user not found', 400));
+        }
+        return res.status(200).json({
+          success: true,
+          message: 'User profile data fetched successfully',
+          data: user,
+        });
+      });
   }
 );

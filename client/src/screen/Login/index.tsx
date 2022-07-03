@@ -10,7 +10,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import Alert from 'components/Alert';
 
@@ -20,6 +20,7 @@ import { DataStorageMiddleware } from 'services/AuthStorageMiddleware';
 import isAuth from 'services/isAuth';
 
 const Index = (): React.ReactElement => {
+  const navigate = useNavigate();
   //! RTK Generated Register Hook , "registerUser" is name of endpoint in userAuthApi.js
   const [loginUser, { isLoading }] = useLoginUserMutation();
   interface apiResponseI {
@@ -68,7 +69,13 @@ const Index = (): React.ReactElement => {
 
       if (res.data) {
         toast.success(res.data.message);
-        DataStorageMiddleware(res);
+        DataStorageMiddleware(res, () => {
+          isAuth() && isAuth().role === 'customer'
+            ? navigate('/customer-private-page')
+            : isAuth() && isAuth().role === 'admin'
+            ? navigate('/admin-private-page')
+            : navigate('/admin-private-page');
+        });
       }
     },
   });
